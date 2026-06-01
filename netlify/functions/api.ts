@@ -166,8 +166,29 @@ const handler: Handler = async (event) => {
   }
 
   try {
+    // Diagnostic endpoint to debug path issues
+    if (routePath === "/" || routePath === "") {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: "API is working",
+          debug: {
+            eventPath: event.path,
+            extractedPath: routePath,
+            method: method,
+            endpoints: {
+              "GET /api/solana-config": "Check Solana payer configuration and balance",
+              "POST /api/withdraw": "Withdraw SOL to an address"
+            }
+          }
+        })
+      };
+    }
+
     // GET /api/solana-config
-    if (method === "GET" && routePath === "/solana-config") {
+    if (method === "GET" && (routePath === "/solana-config" || routePath.endsWith("solana-config"))) {
       const config = getPayerConfig();
 
       if (!config.configured) {
@@ -221,7 +242,7 @@ const handler: Handler = async (event) => {
     }
 
     // POST /api/withdraw
-    if (method === "POST" && routePath === "/withdraw") {
+    if (method === "POST" && (routePath === "/withdraw" || routePath.endsWith("withdraw"))) {
       const body = JSON.parse(event.body || "{}");
       const { recipientAddress, amount } = body;
 

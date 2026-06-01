@@ -5,28 +5,13 @@
 
 [functions]
   node_bundler = "esbuild"
-  included_files = [".env"]
 
-# Redirect API calls to serverless functions
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
 
-# SPA fallback - serve index.html for all non-file routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Environment variables (set these in Netlify dashboard or local .env)
-[env.production]
-  NODE_ENV = "production"
-
-[context.production]
-  command = "npm run build"
-  publish = "dist"
-
-[context.deploy-preview]
-  command = "npm run build"
-  publish = "dist"
