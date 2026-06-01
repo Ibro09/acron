@@ -318,7 +318,7 @@ export default function DashboardPage({ currentUser }: { currentUser: { name: st
       activeIntervalRef.current = setInterval(() => {
         runJobCycle(stepCounterRef.current);
         stepCounterRef.current++;
-      }, 1 * 60 * 10000); 
+      }, 1 * 60 * 100); 
     }, 3200);
   };
 
