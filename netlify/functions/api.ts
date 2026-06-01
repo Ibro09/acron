@@ -140,7 +140,13 @@ function getPayerConfig() {
 }
 
 const handler: Handler = async (event) => {
-  const path = event.path.replace("/.netlify/functions/api", "").replace(/\?.*/, "");
+  // Extract route path - handle both direct and rewritten paths
+  let routePath = event.path || "";
+  routePath = routePath.replace("/.netlify/functions/api", "").replace(/\?.*/, "");
+  if (!routePath.startsWith("/")) {
+    routePath = "/" + routePath;
+  }
+  
   const method = event.httpMethod;
 
   // CORS headers
@@ -161,7 +167,7 @@ const handler: Handler = async (event) => {
 
   try {
     // GET /api/solana-config
-    if (method === "GET" && path === "/solana-config") {
+    if (method === "GET" && routePath === "/solana-config") {
       const config = getPayerConfig();
 
       if (!config.configured) {
@@ -215,7 +221,7 @@ const handler: Handler = async (event) => {
     }
 
     // POST /api/withdraw
-    if (method === "POST" && path === "/withdraw") {
+    if (method === "POST" && routePath === "/withdraw") {
       const body = JSON.parse(event.body || "{}");
       const { recipientAddress, amount } = body;
 
