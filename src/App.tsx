@@ -107,7 +107,7 @@ export default function App() {
     | "product"
     | "solutions"
     | "resources"
-    | "pricing"
+ 
     | "developers"
     | "docs"
     | "auth"
@@ -500,7 +500,7 @@ export default function App() {
               "Product",
               "Solutions",
               "Resources",
-              "Pricing",
+           
               "Developers",
               "Docs",
               ...(currentUser ? ["Dashboard"] : []),
@@ -646,7 +646,7 @@ export default function App() {
                 { label: "Product", view: "product" },
                 { label: "Solutions", view: "solutions" },
                 { label: "Resources", view: "resources" },
-                { label: "Pricing", view: "pricing" },
+               
                 { label: "Developers", view: "developers" },
                 { label: "Docs", view: "docs" },
                 ...(currentUser
@@ -833,23 +833,7 @@ export default function App() {
 
                     {/* Glassmorphic Panel content matching screenshot */}
                     <div className="animate-float relative z-10 glass-panel p-8 rounded-[24px] w-full max-w-[460px] hover:scale-[1.01] transition-transform duration-500 hover:shadow-2xl border border-white/40">
-                      <div className="flex justify-between items-end mb-8">
-                        <div>
-                          <p className="font-label-caps text-brand-gray tracking-widest text-[11px] mb-1">
-                            30-DAY REVENUE
-                          </p>
-                          <h2 className="font-display font-medium text-3xl text-brand-dark tracking-tight">
-                            $
-                            {totalYield.toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                            })}
-                          </h2>
-                        </div>
-                        <div className="text-brand-green font-body-sm font-semibold flex items-center gap-1 bg-brand-green-bg/30 px-2 py-1 rounded-md">
-                          <TrendingUp size={14} className="animate-pulse" />
-                          +12.4%
-                        </div>
-                      </div>
+                    
 
                       {/* Spark Chart representation */}
                       <div className="h-32 flex items-end justify-between gap-1.5 mb-8">
@@ -2051,18 +2035,7 @@ export default function App() {
             </motion.div>
           )}
 
-          {currentView === "pricing" && (
-            <motion.div
-              key="pricing-view"
-              className="w-full"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-            >
-              <PricingPage onStartEarning={handleStartNodeConnection} />
-            </motion.div>
-          )}
+     
 
           {currentView === "developers" && (
             <motion.div
@@ -2577,17 +2550,7 @@ export default function App() {
             >
               Resources
             </button>
-            <span className="text-zinc-300 select-none">•</span>
-            <button
-              onClick={() => {
-                setCurrentView("pricing");
-                setActiveTab("Pricing");
-                window.scrollTo({ top: 0 });
-              }}
-              className="hover:text-brand-green cursor-pointer"
-            >
-              Pricing
-            </button>
+           
             <span className="text-zinc-300 select-none">•</span>
             <button
               onClick={() => {
