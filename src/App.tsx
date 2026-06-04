@@ -107,7 +107,6 @@ export default function App() {
     | "product"
     | "solutions"
     | "resources"
- 
     | "developers"
     | "docs"
     | "auth"
@@ -215,6 +214,16 @@ export default function App() {
   // Terminal Simulator inside the landing page container (developer section)
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
   const [isTerminalRunning, setIsTerminalRunning] = useState<boolean>(false);
+
+  // Token CA copy state
+  const [tokenCopied, setTokenCopied] = useState<boolean>(false);
+  const TOKEN_CA = "FdfnFzFzCArFBVW9wqPd5sesdrK7uXTzQkw4vRwDpump";
+
+  const copyTokenToClipboard = () => {
+    navigator.clipboard.writeText(TOKEN_CA);
+    setTokenCopied(true);
+    setTimeout(() => setTokenCopied(false), 2000);
+  };
 
   // Trigger continuous random transaction piping with mock interval
   useEffect(() => {
@@ -500,7 +509,7 @@ export default function App() {
               "Product",
               "Solutions",
               "Resources",
-           
+
               "Developers",
               "Docs",
               ...(currentUser ? ["Dashboard"] : []),
@@ -646,7 +655,7 @@ export default function App() {
                 { label: "Product", view: "product" },
                 { label: "Solutions", view: "solutions" },
                 { label: "Resources", view: "resources" },
-               
+
                 { label: "Developers", view: "developers" },
                 { label: "Docs", view: "docs" },
                 ...(currentUser
@@ -750,6 +759,33 @@ export default function App() {
                     <span className="font-label-caps text-brand-green mb-4 tracking-widest block bg-brand-green-bg/20 self-start px-2.5 py-1 rounded-full text-[10px]">
                       PROTOCOL V4.14 IS LIVE
                     </span>
+                    <div className="flex items-center gap-2 mb-6">
+                      <span className="inline-block font-label-caps text-white bg-gradient-to-r from-brand-green to-brand-green-light px-3 py-1.5 rounded-full text-[11px] shadow-md border border-brand-green/40 tracking-wider">
+                        Token:{" "}
+                        <span className=" tracking-tight">FdfnFzFzCArFBVW9wqPd5sesdrK7uXTzQkw4vRwDpump</span>
+                      </span>
+                      <button
+                        onClick={copyTokenToClipboard}
+                        className={`p-2 rounded-lg flex items-center gap-1.5 transition-all duration-300 font-label-caps text-[11px] ${
+                          tokenCopied
+                            ? "bg-brand-green text-white shadow-md"
+                            : "bg-brand-green/20 text-brand-green hover:bg-brand-green/30 hover:shadow-md"
+                        }`}
+                        title="Copy token address"
+                      >
+                        {tokenCopied ? (
+                          <>
+                            <Check size={16} />
+                            <span className="hidden sm:inline">Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={16} />
+                            <span className="hidden sm:inline">Copy</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                     <h1 className="font-display-lg text-brand-dark tracking-tighter leading-[1.08] mb-6">
                       Turn acron capacity{" "}
                       <span className="text-brand-green-light block italic font-medium mt-1">
@@ -833,8 +869,6 @@ export default function App() {
 
                     {/* Glassmorphic Panel content matching screenshot */}
                     <div className="animate-float relative z-10 glass-panel p-8 rounded-[24px] w-full max-w-[460px] hover:scale-[1.01] transition-transform duration-500 hover:shadow-2xl border border-white/40">
-                    
-
                       {/* Spark Chart representation */}
                       <div className="h-32 flex items-end justify-between gap-1.5 mb-8">
                         <div className="w-full bg-brand-green/10 hover:bg-brand-green/30 h-[40%] rounded-t transition-all duration-300 relative group cursor-pointer">
@@ -925,8 +959,6 @@ export default function App() {
                         </div>
                       </div>
                     </div>
-
-                  
                   </div>
                 </div>
               </section>
@@ -942,7 +974,6 @@ export default function App() {
                     <span className="font-display font-medium text-[26px] tracking-[0.25em] text-brand-dark hover:scale-105 transition-transform cursor-pointer">
                       SOLANA
                     </span>
-                
                   </div>
                 </div>
               </section>
@@ -1601,7 +1632,6 @@ export default function App() {
                       >
                         Read Docs
                       </button>
-                      
                     </div>
                   </div>
 
@@ -1754,7 +1784,6 @@ export default function App() {
                     >
                       Get Started Now
                     </button>
-                    
                   </div>
                 </div>
               </section>
@@ -2034,8 +2063,6 @@ export default function App() {
               />
             </motion.div>
           )}
-
-     
 
           {currentView === "developers" && (
             <motion.div
@@ -2486,7 +2513,7 @@ export default function App() {
                   Twitter / X
                 </a>
               </li>
-             
+
               <li>
                 <a
                   href="https://t.me/earnacron"
@@ -2550,7 +2577,7 @@ export default function App() {
             >
               Resources
             </button>
-           
+
             <span className="text-zinc-300 select-none">•</span>
             <button
               onClick={() => {
