@@ -133,22 +133,7 @@ export default function ResourcesPage({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 bg-zinc-900/60 rounded-xl space-y-2 border border-zinc-800">
-              <span className="font-label-caps text-zinc-500 text-[9px] tracking-wider block font-bold">
-                TOTAL REGISTERED HARDWARE
-              </span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-mono text-white font-bold tracking-tight">
-                  {onChainNodes.toLocaleString()}
-                </span>
-                <span className="text-[11px] text-emerald-500 font-bold font-sans">
-                  Active Nodes
-                </span>
-              </div>
-              <p className="font-sans text-[11px] text-zinc-500">
-                Live hosts running verified secure enclaves globally.
-              </p>
-            </div>
+           
 
             <div className="p-6 bg-zinc-900/60 rounded-xl space-y-2 border border-zinc-800">
               <span className="font-label-caps text-zinc-500 text-[9px] tracking-wider block font-bold">
@@ -167,22 +152,7 @@ export default function ResourcesPage({
               </p>
             </div>
 
-            <div className="p-6 bg-zinc-900/60 rounded-xl space-y-2 border border-zinc-800">
-              <span className="font-label-caps text-zinc-500 text-[9px] tracking-wider block font-bold">
-                TOTAL DEFLATIONARY ACCRUED BURNS
-              </span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-mono text-white font-bold tracking-tight">
-                  {totalSolBurnt.toFixed(2)} SOL
-                </span>
-                <span className="text-[11px] text-zinc-400 font-sans">
-                  Burned Sol
-                </span>
-              </div>
-              <p className="font-sans text-[11px] text-zinc-500">
-                Protocol fees automatically converted & locked on-chain.
-              </p>
-            </div>
+         
           </div>
         </div>
       </section>
