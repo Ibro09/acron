@@ -958,15 +958,7 @@ export default function App() {
                     <span className="font-display font-medium text-[26px] tracking-[0.25em] text-brand-dark hover:scale-105 transition-transform cursor-pointer">
                       SOLANA
                     </span>
-                    <span className="font-display font-semibold text-[26px] tracking-[0.2em] text-brand-dark hover:scale-105 transition-transform cursor-pointer">
-                      ALCHEMY
-                    </span>
-                    <span className="font-display font-medium text-[26px] tracking-[0.22em] text-brand-dark hover:scale-105 transition-transform cursor-pointer">
-                      VERCEL
-                    </span>
-                    <span className="font-display font-bold text-[26px] tracking-[0.18em] text-brand-dark hover:scale-105 transition-transform cursor-pointer">
-                      OPENAI
-                    </span>
+                
                   </div>
                 </div>
               </section>
@@ -2513,7 +2505,7 @@ export default function App() {
             <ul className="space-y-3 font-body-sm text-[13px] text-brand-gray">
               <li>
                 <a
-                  href="https://x.com"
+                  href="https://x.com/useacron2026"
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-brand-green transition-all hover:pl-1 block text-left"
@@ -2521,24 +2513,15 @@ export default function App() {
                   Twitter / X
                 </a>
               </li>
+             
               <li>
                 <a
-                  href="https://discord.com"
+                  href="https://t.me/earnacron"
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-brand-green transition-all hover:pl-1 block text-left"
                 >
-                  Discord
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-brand-green transition-all hover:pl-1 block text-left"
-                >
-                  LinkedIn
+                  Telegram
                 </a>
               </li>
             </ul>
