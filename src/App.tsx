@@ -359,12 +359,18 @@ export default function App() {
     let index = 0;
     const interval = setInterval(() => {
       if (index < logMessages.length) {
-        setTerminalLogs((prev) => [...prev, logMessages[index]]);
+        const msg = logMessages[index];
         index++;
-      } else {
-        clearInterval(interval);
-        setIsSimulatingLink(false);
-        setModalStep(4);
+        if (msg !== undefined) {
+          setTerminalLogs((prev) => [...prev, msg]);
+        }
+        if (index >= logMessages.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsSimulatingLink(false);
+            setModalStep(4);
+          }, 400);
+        }
       }
     }, 700);
   };
@@ -762,7 +768,9 @@ export default function App() {
                     <div className="flex items-center gap-2 mb-6">
                       <span className="inline-block font-label-caps text-white bg-gradient-to-r from-brand-green to-brand-green-light px-3 py-1.5 rounded-full text-[11px] shadow-md border border-brand-green/40 tracking-wider">
                         Token:{" "}
-                        <span className=" tracking-tight">FdfnFzFzCArFBVW9wqPd5sesdrK7uXTzQkw4vRwDpump</span>
+                        <span className=" tracking-tight">
+                          FdfnFzFzCArFBVW9wqPd5sesdrK7uXTzQkw4vRwDpump
+                        </span>
                       </span>
                       <button
                         onClick={copyTokenToClipboard}
@@ -2189,7 +2197,7 @@ export default function App() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white border border-brand-light-beige rounded-[24px] max-w-lg w-full overflow-hidden shadow-2xl flex flex-col"
+              className="bg-white border border-brand-light-beige rounded-[24px] max-w-lg w-full shadow-2xl flex flex-col"
             >
               {/* Modal header */}
               <div className="flex justify-between items-center px-6 py-4.5 bg-brand-cream border-b border-brand-light-beige/50">
@@ -2213,228 +2221,261 @@ export default function App() {
               </div>
 
               {/* Stepper Content */}
-              <div className="p-6 flex-grow">
-                {modalStep === 1 && (
-                  <div className="flex flex-col text-left">
-                    <h3 className="font-display font-medium text-[20px] text-brand-dark mb-2">
-                      Choose Your Resource Type
-                    </h3>
-                    <p className="font-body-sm text-brand-gray text-[13px] mb-6">
-                      Decide what capacity class you wish to allocate onto the
-                      global protocol routing cluster indexing tables.
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      {[
-                        {
-                          type: "gpu",
-                          title: "GPU / Compute",
-                          desc: "For LLM inference pipelines & generative nodes",
-                          icon: Cpu,
-                        },
-                        {
-                          type: "agent",
-                          title: "AI Agent Runner",
-                          desc: "For hosting autonomous agent executor loop hosts",
-                          icon: Bot,
-                        },
-                        {
-                          type: "api",
-                          title: "API Endpoint",
-                          desc: "For REST webhook, relay & caching pipelines",
-                          icon: Globe,
-                        },
-                        {
-                          type: "storage",
-                          title: "Storage Space",
-                          desc: "Secure caching, IPFS hosting, and data layers",
-                          icon: Database,
-                        },
-                      ].map((opt) => {
-                        const IconComp = opt.icon;
-                        return (
-                          <button
-                            key={opt.type}
-                            onClick={() => setNewNodeType(opt.type as any)}
-                            className={`p-4 rounded-xl border text-left flex flex-col justify-between transition-all gap-4 select-none cursor-pointer ${
-                              newNodeType === opt.type
-                                ? "bg-brand-green-bg/25 border-brand-green text-brand-green shadow-sm"
-                                : "border-brand-light-beige hover:border-brand-gray text-brand-dark bg-white"
-                            }`}
-                          >
-                            <IconComp
-                              size={20}
-                              className={
-                                newNodeType === opt.type
-                                  ? "text-brand-green font-bold"
-                                  : "text-brand-gray"
-                              }
-                            />
-                            <div>
-                              <h4 className="font-body-md font-semibold text-[14px] leading-tight mb-1">
-                                {opt.title}
-                              </h4>
-                              <p className="text-[11px] text-brand-gray leading-snug">
-                                {opt.desc}
-                              </p>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div className="mt-8 flex justify-end">
-                      <button
-                        onClick={() => setModalStep(2)}
-                        className="px-5 py-2.5 bg-brand-green hover:bg-brand-green-light text-white font-label-caps text-[11px] rounded-lg transition-all flex items-center gap-1 cursor-pointer"
-                      >
-                        <span>CONTINUE</span>
-                        <ChevronRight size={14} />
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {modalStep === 2 && (
-                  <div className="flex flex-col text-left">
-                    <h3 className="font-display font-medium text-[20px] text-brand-dark mb-2">
-                      Label Your Node Host
-                    </h3>
-                    <p className="font-body-sm text-brand-gray text-[13px] mb-6">
-                      Provide a human-friendly name identifier to help manage
-                      your telemetry metrics and routing log pipelines.
-                    </p>
-
-                    <div className="space-y-4">
-                      <label className="font-label-caps text-brand-gray text-[10px] font-medium tracking-wider">
-                        HOST SPECIFICATION NAME
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="e.g. London Host RTX 4090"
-                        value={newNodeName}
-                        onChange={(e) => setNewNodeName(e.target.value)}
-                        className="w-full p-3.5 bg-brand-cream border border-brand-light-beige rounded-xl focus:border-brand-green focus:ring-1 focus:ring-brand-green/40 mt-1 select-all font-body-md text-brand-dark text-sm"
-                      />
-                      <p className="text-[11px] text-brand-gray leading-relaxed italic">
-                        Tip: You can change the registered name later from your
-                        client control settings panel.
-                      </p>
-                    </div>
-
-                    <div className="mt-12 flex justify-between">
-                      <button
-                        onClick={() => setModalStep(1)}
-                        className="px-4.5 py-2.5 border border-brand-light-beige hover:bg-zinc-100 text-brand-gray font-label-caps text-[11px] rounded-lg transition-all"
-                      >
-                        BACK
-                      </button>
-                      <button
-                        onClick={executeModalStep2}
-                        className="px-5 py-2.5 bg-brand-green hover:bg-brand-green-light text-white font-label-caps text-[11px] rounded-lg transition-all flex items-center gap-1 cursor-pointer"
-                      >
-                        <span>CONTINUE</span>
-                        <ChevronRight size={14} />
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {modalStep === 3 && (
-                  <div className="flex flex-col text-left">
-                    <h3 className="font-display font-medium text-[20px] text-brand-dark mb-1">
-                      Boot & Handshake Node
-                    </h3>
-                    <p className="font-body-sm text-brand-gray text-[13px] mb-4">
-                      Start the lightweight protocol simulation to verify
-                      network connectivity, enclave certifications, and resource
-                      bandwidth.
-                    </p>
-
-                    {/* Pre-formatted Copier Box */}
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 font-mono text-[11px] text-zinc-300 leading-normal mb-4 text-left relative group">
-                      <p className="text-zinc-500 mb-0.5 select-none font-sans uppercase tracking-widest text-[9px] font-bold">
-                        Copy setup command
-                      </p>
-                      <code className="text-emerald-400">
-                        docker run -d -e API_KEY="INF_LIVE_V4"
-                        protocol-node/server
-                      </code>
-                    </div>
-
-                    {/* Handshake simulate Terminal output */}
-                    <div className="bg-black/95 rounded-xl p-4 font-mono text-[10px] min-h-28 max-h-36 overflow-y-auto border border-zinc-850 text-left space-y-1 mb-4">
-                      {terminalLogs.length === 0 ? (
-                        <div className="text-zinc-650 italic select-none">
-                          ◀ Click 'SIMULATE LINK HANDSHAKE' below to establish
-                          secure cryptographic routing tunnel...
-                        </div>
-                      ) : (
-                        terminalLogs.map((log, idx) => (
-                          <div
-                            key={idx}
-                            className={
-                              log.startsWith("✔")
-                                ? "text-emerald-500"
-                                : log.startsWith("▶")
-                                  ? "text-zinc-300"
-                                  : "text-yellow-500"
-                            }
-                          >
-                            {log}
-                          </div>
-                        ))
-                      )}
-                    </div>
-
-                    <div className="flex justify-between items-center gap-4">
-                      <button
-                        onClick={() => setModalStep(2)}
-                        disabled={isSimulatingLink}
-                        className={`px-4 py-2.5 border border-brand-light-beige text-brand-gray font-label-caps text-[11px] rounded-lg transition-all ${isSimulatingLink ? "opacity-40 cursor-not-allowed" : "hover:bg-zinc-100"}`}
-                      >
-                        BACK
-                      </button>
-
-                      <button
-                        onClick={simulateStep3NodeLink}
-                        disabled={isSimulatingLink}
-                        className={`px-5 py-2.5 bg-[#1c1c18] text-white hover:bg-black font-label-caps text-[11px] rounded-lg transition-all ${
-                          isSimulatingLink
-                            ? "opacity-60 cursor-not-allowed animate-pulse"
-                            : "cursor-pointer active:scale-95"
-                        }`}
-                      >
-                        {isSimulatingLink
-                          ? "VERIFYING ENCLAVE..."
-                          : "SIMULATE LINK HANDSHAKE"}
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {modalStep === 4 && (
-                  <div className="text-center flex flex-col items-center py-4">
-                    <div className="w-16 h-16 bg-brand-green text-white rounded-full flex items-center justify-center mb-6 shadow-md animate-bounce">
-                      <Check size={32} />
-                    </div>
-                    <h3 className="font-display font-medium text-2xl text-brand-dark mb-3">
-                      Connection Confirmed!
-                    </h3>
-                    <p className="font-body-md text-brand-gray text-[14px] max-w-sm mb-8 leading-relaxed">
-                      Your host node labeled <strong>"{newNodeName}"</strong>{" "}
-                      has been cryptographically certified and linked. Live
-                      routing is active.
-                    </p>
-
-                    <button
-                      onClick={finishNodeConnection}
-                      className="px-12 py-4 bg-brand-green text-white hover:bg-brand-green-light font-label-caps text-[11.5px] font-semibold rounded-lg shadow transition-all active:scale-98 duration-200 uppercase tracking-wider cursor-pointer"
+              <div className="p-6 flex-grow overflow-y-auto min-h-[320px]">
+                <AnimatePresence mode="sync">
+                  {modalStep === 1 && (
+                    <motion.div
+                      key="step-1"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      Commit Node to Ledger & Close
-                    </button>
-                  </div>
-                )}
+                      <div className="flex flex-col text-left">
+                        <h3 className="font-display font-medium text-[20px] text-brand-dark mb-2">
+                          Choose Your Resource Type
+                        </h3>
+                        <p className="font-body-sm text-brand-gray text-[13px] mb-6">
+                          Decide what capacity class you wish to allocate onto
+                          the global protocol routing cluster indexing tables.
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        {[
+                          {
+                            type: "gpu",
+                            title: "GPU / Compute",
+                            desc: "For LLM inference pipelines & generative nodes",
+                            icon: Cpu,
+                          },
+                          {
+                            type: "agent",
+                            title: "AI Agent Runner",
+                            desc: "For hosting autonomous agent executor loop hosts",
+                            icon: Bot,
+                          },
+                          {
+                            type: "api",
+                            title: "API Endpoint",
+                            desc: "For REST webhook, relay & caching pipelines",
+                            icon: Globe,
+                          },
+                          {
+                            type: "storage",
+                            title: "Storage Space",
+                            desc: "Secure caching, IPFS hosting, and data layers",
+                            icon: Database,
+                          },
+                        ].map((opt) => {
+                          const IconComp = opt.icon;
+                          return (
+                            <button
+                              key={opt.type}
+                              onClick={() => setNewNodeType(opt.type as any)}
+                              className={`p-4 rounded-xl border text-left flex flex-col justify-between transition-all gap-4 select-none cursor-pointer ${
+                                newNodeType === opt.type
+                                  ? "bg-brand-green-bg/25 border-brand-green text-brand-green shadow-sm"
+                                  : "border-brand-light-beige hover:border-brand-gray text-brand-dark bg-white"
+                              }`}
+                            >
+                              <IconComp
+                                size={20}
+                                className={
+                                  newNodeType === opt.type
+                                    ? "text-brand-green font-bold"
+                                    : "text-brand-gray"
+                                }
+                              />
+                              <div>
+                                <h4 className="font-body-md font-semibold text-[14px] leading-tight mb-1">
+                                  {opt.title}
+                                </h4>
+                                <p className="text-[11px] text-brand-gray leading-snug">
+                                  {opt.desc}
+                                </p>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className="mt-8 flex justify-end">
+                        <button
+                          onClick={() => setModalStep(2)}
+                          className="px-5 py-2.5 bg-brand-green hover:bg-brand-green-light text-white font-label-caps text-[11px] rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>CONTINUE</span>
+                          <ChevronRight size={14} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {modalStep === 2 && (
+                    <motion.div
+                      key="step-2"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="flex flex-col text-left">
+                        <h3 className="font-display font-medium text-[20px] text-brand-dark mb-2">
+                          Label Your Node Host
+                        </h3>
+                        <p className="font-body-sm text-brand-gray text-[13px] mb-6">
+                          Provide a human-friendly name identifier to help
+                          manage your telemetry metrics and routing log
+                          pipelines.
+                        </p>
+                      </div>
+                      <div className="space-y-4">
+                        <label className="font-label-caps text-brand-gray text-[10px] font-medium tracking-wider">
+                          HOST SPECIFICATION NAME
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. London Host RTX 4090"
+                          value={newNodeName}
+                          onChange={(e) => setNewNodeName(e.target.value)}
+                          className="w-full p-3.5 bg-brand-cream border border-brand-light-beige rounded-xl focus:border-brand-green focus:ring-1 focus:ring-brand-green/40 mt-1 select-all font-body-md text-brand-dark text-sm"
+                        />
+                        <p className="text-[11px] text-brand-gray leading-relaxed italic">
+                          Tip: You can change the registered name later from
+                          your client control settings panel.
+                        </p>
+                      </div>
+
+                      <div className="mt-12 flex justify-between">
+                        <button
+                          onClick={() => setModalStep(1)}
+                          className="px-4.5 py-2.5 border border-brand-light-beige hover:bg-zinc-100 text-brand-gray font-label-caps text-[11px] rounded-lg transition-all"
+                        >
+                          BACK
+                        </button>
+                        <button
+                          onClick={executeModalStep2}
+                          className="px-5 py-2.5 bg-brand-green hover:bg-brand-green-light text-white font-label-caps text-[11px] rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>CONTINUE</span>
+                          <ChevronRight size={14} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {modalStep === 3 && (
+                    <motion.div
+                      key="step-3"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="flex flex-col text-left">
+                        <h3 className="font-display font-medium text-[20px] text-brand-dark mb-1">
+                          Boot & Handshake Node
+                        </h3>
+                        <p className="font-body-sm text-brand-gray text-[13px] mb-4">
+                          Start the lightweight protocol simulation to verify
+                          network connectivity, enclave certifications, and
+                          resource bandwidth.
+                        </p>
+                      </div>
+                      {/* Pre-formatted Copier Box */}
+                      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 font-mono text-[11px] text-zinc-300 leading-normal mb-4 text-left relative group">
+                        <p className="text-zinc-500 mb-0.5 select-none font-sans uppercase tracking-widest text-[9px] font-bold">
+                          Copy setup command
+                        </p>
+                        <code className="text-emerald-400">
+                          docker run -d -e API_KEY="INF_LIVE_V4"
+                          protocol-node/server
+                        </code>
+                      </div>
+
+                      {/* Handshake simulate Terminal output */}
+                      <div className="bg-black/95 rounded-xl p-4 font-mono text-[10px] min-h-28 max-h-36 overflow-y-auto border border-zinc-850 text-left space-y-1 mb-4">
+                        {terminalLogs.length === 0 ? (
+                          <div className="text-zinc-650 italic select-none">
+                            ◀ Click 'SIMULATE LINK HANDSHAKE' below to establish
+                            secure cryptographic routing tunnel...
+                          </div>
+                        ) : (
+                          terminalLogs.filter(Boolean).map((log, idx) => (
+                            <div
+                              key={idx}
+                              className={
+                                log.startsWith("✔")
+                                  ? "text-emerald-500"
+                                  : log.startsWith("▶")
+                                    ? "text-zinc-300"
+                                    : "text-yellow-500"
+                              }
+                            >
+                              {log}
+                            </div>
+                          ))
+                        )}
+                      </div>
+
+                      <div className="flex justify-between items-center gap-4">
+                        <button
+                          onClick={() => setModalStep(2)}
+                          disabled={isSimulatingLink}
+                          className={`px-4 py-2.5 border border-brand-light-beige text-brand-gray font-label-caps text-[11px] rounded-lg transition-all ${isSimulatingLink ? "opacity-40 cursor-not-allowed" : "hover:bg-zinc-100"}`}
+                        >
+                          BACK
+                        </button>
+
+                        <button
+                          onClick={simulateStep3NodeLink}
+                          disabled={isSimulatingLink}
+                          className={`px-5 py-2.5 bg-[#1c1c18] text-white hover:bg-black font-label-caps text-[11px] rounded-lg transition-all ${
+                            isSimulatingLink
+                              ? "opacity-60 cursor-not-allowed animate-pulse"
+                              : "cursor-pointer active:scale-95"
+                          }`}
+                        >
+                          {isSimulatingLink
+                            ? "VERIFYING ENCLAVE..."
+                            : "SIMULATE LINK HANDSHAKE"}
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {modalStep === 4 && (
+                    <motion.div
+                      key="step-4"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="text-center flex flex-col items-center py-4">
+                        <div className="w-16 h-16 bg-brand-green text-white rounded-full flex items-center justify-center mb-6 shadow-md animate-bounce">
+                          <Check size={32} />
+                        </div>
+                        <h3 className="font-display font-medium text-2xl text-brand-dark mb-3">
+                          Connection Confirmed!
+                        </h3>
+                        <p className="font-body-md text-brand-gray text-[14px] max-w-sm mb-8 leading-relaxed">
+                          Your host node labeled{" "}
+                          <strong>"{newNodeName}"</strong> has been
+                          cryptographically certified and linked. Live routing
+                          is active.
+                        </p>
+
+                        <button
+                          onClick={finishNodeConnection}
+                          className="px-12 py-4 bg-brand-green text-white hover:bg-brand-green-light font-label-caps text-[11.5px] font-semibold rounded-lg shadow transition-all active:scale-98 duration-200 uppercase tracking-wider cursor-pointer"
+                        >
+                          Commit Node to Ledger & Close
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </div>
